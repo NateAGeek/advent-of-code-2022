@@ -4,20 +4,31 @@ fn main() {
     let input_file = File::open("./input.txt").unwrap();
     let input_file_reader = BufReader::new(input_file);
 
-    let mut highest_calorie_count = 0;
-    let mut active_sum = 0;
+    let mut calorie_counts: [i32; 3] = [0, 0, 0];
+    let mut current_elf_calorie_sum = 0;
+    let mut lowest_number_index: usize = 0;
+
     for line in input_file_reader.lines() {
         let line = line.unwrap();
+
         if line == "" {
-            println!("End of Elf Inventory, Total Cal: {}", active_sum);
-            if active_sum > highest_calorie_count {
-                highest_calorie_count = active_sum;
+            println!("End of Elf Inventory, Total Cal: {}", current_elf_calorie_sum);
+
+            // THis finds the first smallest, not the smallest... Might just want to store the index of smallest...
+            for index in 0..calorie_counts.len(){
+                if current_elf_calorie_sum < calorie_counts[lowest_number_index] {
+                    lowest_number_index = index;
+                }
             }
-            active_sum = 0;
+
+            if calorie_counts[lowest_number_index] < current_elf_calorie_sum {
+                calorie_counts[lowest_number_index] = current_elf_calorie_sum;
+            }
+            current_elf_calorie_sum = 0;
         } else {
-            active_sum += line.parse::<i32>().unwrap();
+            current_elf_calorie_sum += line.parse::<i32>().unwrap();
         }
     }
 
-    println!("The Highest Calorie Count is: {}", highest_calorie_count);
+    println!("The Highest 3 Calorie Count is: {:?}", calorie_counts);
 }
