@@ -6,7 +6,12 @@ fn main() {
     let mut lines = input_file_reader.lines();
 
     let mut total_sum = 0;
-    while let (Some(first_sack), Some(second_sack), Some(third_sack)) = (lines.next(), lines.next(), lines.next()) {
+    while let (
+        Some(first_sack),
+        Some(second_sack), 
+        Some(third_sack)
+    ) = (lines.next(), lines.next(), lines.next()) {
+        
         let item = find_match_item_in_compartments(
             first_sack.unwrap().as_str(),
             second_sack.unwrap().as_str(),
